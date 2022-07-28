@@ -3,4 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_exchange_rate">Exchange Rate</string>
     <string name="title_virtual_trading">Virtual Trading</string>
+
+    <string name="favorites">Favorites</string>
+    <string name="cryptocurrencies">Cryptocurrencies</string>
 </resources>

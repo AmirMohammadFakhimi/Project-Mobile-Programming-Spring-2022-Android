@@ -1,12 +1,15 @@
 package edu.sharif.cryptocurrency;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+@Dao
 public interface CryptocurrencyDao {
     @Insert
     void insert(Cryptocurrency cryptocurrency);
@@ -23,8 +26,8 @@ public interface CryptocurrencyDao {
     @Query("UPDATE cryptocurrency SET price = :price WHERE symbol = :symbol")
     void updatePrice(String symbol, double price);
 
-    @Query("SELECT * FROM cryptocurrency WHERE symbol = :symbol")
-    LiveData<Cryptocurrency> getCryptocurrency(String symbol);
+    @Query("SELECT * FROM cryptocurrency")
+    LiveData<List<Cryptocurrency>> getCryptocurrency();
 
     @Query("DELETE FROM cryptocurrency")
     void deleteTable();

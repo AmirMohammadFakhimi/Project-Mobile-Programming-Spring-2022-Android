@@ -2,17 +2,17 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "337300bb8cfc92621f9afa909a2fd6a3",
+    "identityHash": "ebc494eef8b36bf18ddc895c43037186",
     "entities": [
       {
         "tableName": "Cryptocurrency",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`symbol` TEXT, `name` TEXT, `price` REAL NOT NULL, `isFavorite` INTEGER NOT NULL, `virtualTradingAmount` REAL NOT NULL, `history` TEXT, PRIMARY KEY(`symbol`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`symbol` TEXT NOT NULL, `name` TEXT, `price` REAL NOT NULL, `isFavorite` INTEGER NOT NULL, `virtualTradingAmount` REAL NOT NULL, `history` TEXT, PRIMARY KEY(`symbol`))",
         "fields": [
           {
             "fieldPath": "symbol",
             "columnName": "symbol",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "name",
@@ -58,7 +58,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '337300bb8cfc92621f9afa909a2fd6a3')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ebc494eef8b36bf18ddc895c43037186')"
     ]
   }
 }

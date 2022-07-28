@@ -5,8 +5,10 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 @Database(entities = {Cryptocurrency.class}, version = 3)
+@TypeConverters({Converters.class})
 public abstract class CryptocurrencyRoomDatabase extends RoomDatabase {
     public abstract CryptocurrencyDao cryptocurrencyDao();
 

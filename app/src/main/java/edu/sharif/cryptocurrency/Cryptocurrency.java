@@ -1,5 +1,6 @@
 package edu.sharif.cryptocurrency;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 
 import java.util.ArrayList;
@@ -7,8 +8,9 @@ import java.util.HashMap;
 
 @Entity(primaryKeys = "symbol")
 public class Cryptocurrency {
-    private static final ArrayList<Cryptocurrency> cryptocurrencies = new ArrayList<>();
+    private static ArrayList<Cryptocurrency> cryptocurrencies = new ArrayList<>();
 
+    @NonNull
     private final String symbol;
     private final String name;
     private double price = 0;
@@ -17,8 +19,7 @@ public class Cryptocurrency {
     private double virtualTradingAmount = 0;
     private HashMap<String, Double> history;
 
-
-    public Cryptocurrency(String symbol, String name, HashMap<String, Double> history) {
+    public Cryptocurrency(@NonNull String symbol, String name, HashMap<String, Double> history) {
         this.symbol = symbol;
         this.name = name;
         this.history = history;
@@ -26,11 +27,15 @@ public class Cryptocurrency {
         cryptocurrencies.add(this);
     }
 
-    public Boolean getFavorite() {
+    public static ArrayList<Cryptocurrency> getCryptocurrencies() {
+        return cryptocurrencies;
+    }
+
+    public boolean getFavorite() {
         return isFavorite;
     }
 
-    public void setFavorite(Boolean favorite) {
+    public void setFavorite(boolean favorite) {
         isFavorite = favorite;
     }
 

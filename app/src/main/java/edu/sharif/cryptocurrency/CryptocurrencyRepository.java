@@ -1,6 +1,7 @@
 package edu.sharif.cryptocurrency;
 
 import android.app.Application;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -16,15 +17,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class CryptocurrencyRepository {
-    private static final String[] cryptocurrenciesSymbol = {"BTC/USD", "ETH/USD", "XRP/USD", "USDT/USD", "ADA/USD", "XLM/USD",
-            "USDC/USD", "DOGE/USD", "LINK/USD"};
+    private static final String[] cryptocurrenciesSymbol = {"BTC/USD", "ETH/USD", "XRP/USD", "ADA/USD"};
+//  USDT/USD", "XLM/USD", "USDC/USD", "DOGE/USD", "LINK/USD"
 
     private final CryptocurrencyDao cryptocurrencyDao;
-    private LiveData<ArrayList<Cryptocurrency>> cryptocurrencies;
+    private LiveData<List<Cryptocurrency>> cryptocurrencies;
 
     public CryptocurrencyRepository(@NonNull Application application) {
         CryptocurrencyRoomDatabase database =
@@ -42,7 +43,7 @@ public class CryptocurrencyRepository {
 //        }
     }
 
-    synchronized public LiveData<ArrayList<Cryptocurrency>> getCryptocurrenciesFromApi(View view) {
+    synchronized public LiveData<List<Cryptocurrency>> getCryptocurrenciesFromApi(View view) {
         RequestQueue queue = Volley.newRequestQueue(view.getContext());
 
         for (String symbol : cryptocurrenciesSymbol) {
@@ -53,9 +54,7 @@ public class CryptocurrencyRepository {
             queue.add(cryptocurrencyPriceRequest);
         }
 
-        for (String symbol : cryptocurrenciesSymbol)
-            cryptocurrencies.getValue().add(cryptocurrencyDao.getCryptocurrency(symbol).getValue());
-
+        cryptocurrencies = cryptocurrencyDao.getCryptocurrency();
         return cryptocurrencies;
     }
 
@@ -83,6 +82,7 @@ public class CryptocurrencyRepository {
 
                 Thread thread = new Thread(() -> {
                     boolean isCacheAvailable = cryptocurrencyDao.count(symbol) > 0;
+                    Log.d("hiii", isCacheAvailable + "");
 
                     if (isCacheAvailable)
                         cryptocurrencyDao.updateHistory(symbol, cryptocurrencyInfos);
@@ -122,12 +122,22 @@ public class CryptocurrencyRepository {
                 error -> createToast(view, "There was a problem with the connection."));
     }
 
-    public LiveData<ArrayList<Cryptocurrency>> getCryptocurrencies() {
+    public LiveData<List<Cryptocurrency>> getCryptocurrencies() {
         return cryptocurrencies;
     }
 
+    public void updateFavorite(String symbol, boolean isFavorite) {
+        try {
+            Thread thread = new Thread(() -> cryptocurrencyDao.updateIsFavorite(symbol, isFavorite));
+            thread.join();
+            thread.start();
+        } catch (Exception ignored) {
+
+        }
+    }
+
     private void createToast(View view, String message) {
-//        view.findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
-        Toast.makeText(view.getContext(), message, Toast.LENGTH_LONG).show();
+        view.findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
+        Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

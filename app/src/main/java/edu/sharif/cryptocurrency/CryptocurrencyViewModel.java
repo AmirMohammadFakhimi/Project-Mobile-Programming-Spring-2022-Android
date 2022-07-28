@@ -8,10 +8,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CryptocurrencyViewModel extends AndroidViewModel {
     private final CryptocurrencyRepository cryptocurrencyRepository;
-    private LiveData<ArrayList<Cryptocurrency>> cryptocurrencies;
+    private LiveData<List<Cryptocurrency>> cryptocurrencies;
 
     public CryptocurrencyViewModel(@NonNull Application application) {
         super(application);
@@ -20,8 +21,12 @@ public class CryptocurrencyViewModel extends AndroidViewModel {
         cryptocurrencies = cryptocurrencyRepository.getCryptocurrencies();
     }
 
-    public LiveData<ArrayList<Cryptocurrency>> getCryptocurrencies(View view) {
+    public LiveData<List<Cryptocurrency>> getCryptocurrencies(View view) {
         cryptocurrencies = cryptocurrencyRepository.getCryptocurrenciesFromApi(view);
         return cryptocurrencies;
+    }
+
+    public void updateFavorite(String symbol, boolean isFavorite) {
+        cryptocurrencyRepository.updateFavorite(symbol, isFavorite);
     }
 }
