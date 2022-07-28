@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="edu.sharif.cryptocurrency.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_exchange_rate"
+        android:name="edu.sharif.cryptocurrency.ui.exchange_rate.ExchangeRateFragment"
+        android:label="@string/title_exchange_rate"
+        tools:layout="@layout/fragment_exchange_rate" />
+
+    <fragment
+        android:id="@+id/navigation_virtual_trading"
+        android:name="edu.sharif.cryptocurrency.ui.virtual_trading.VirtualTradingFragment"
+        android:label="@string/title_virtual_trading"
+        tools:layout="@layout/fragment_virtual_trading" />
+</navigation>
